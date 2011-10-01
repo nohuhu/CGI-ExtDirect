@@ -1,0 +1,70 @@
+CGI-ExtDirect version 1.00
+==========================
+
+This module implement RPC::ExtDirect gateway for CGI environment.
+It was successfully tested with Perl 5.6 and newer in Apache CGI
+and HTTP::Server::Simple::CGI applications. 
+
+In fact, CGI::ExtDirect is dependent on only two non-core modules:
+Attribute::Handlers and JSON, both of which support Perl 5.6 and
+are pure Perl modules. Test suite is based on CGI::Test which does
+have some non-trivial dependencies but it is not needed for normal
+operation and in some cases may be skipped.
+
+What this means is that now there is an easy way to provide older CGI
+applications that are unfeasible (or plain impossible) to refactor
+with simple and easy to use interface to one of the most advanced
+JavaScript frameworks available on the market.
+
+RPC::ExtDirect is an implementation of Ext.Direct remoting protocol
+used in Sencha Inc. ExtJS JavaScript framework.
+
+For more information, see RPC::ExtDirect documentation.
+
+For a simple example on how to use CGI::ExtDirect, see
+example/ directory.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+To run examples type the following:
+
+   cd examples
+   ./p5httpd.pl
+
+Note that examples will work only after 'make && make test' but
+they do not require CGI::ExtDirect to be installed so you can try
+them before installing the module.
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  RPC::ExtDirect, JSON, Attribute::Handlers, Test::More,
+  CGI::Test 0.200
+
+At the time of writing this, CGI::Test available on CPAN is long
+unmaintaned and is completely broken due to grossly outdated
+dependencies. I have updated it to be usable again but since I
+do not have maintenance rights with this module I cannot upload
+it to CPAN. For the time being it is available on Github.com:
+https://github.com/nohuhu/CGI-Test
+
+COPYRIGHT AND LICENSE
+
+Copyright (C) 2011 by Alexander Tokarev, <tokarev@cpan.org>
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.6.0 or,
+at your option, any later version of Perl 5 you may have available.
+
+Included Ext JS examples are copyright (c) 2011, Sencha Inc. Example code
+is used and distributed under GPL 3.0 license as provided by Sencha Inc.
+See http://www.sencha.com/license. Ext JS is available for download at
+http://www.sencha.com/products/extjs/

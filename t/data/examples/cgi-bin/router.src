@@ -1,0 +1,15 @@
+#!PUT_PERL_HERE
+
+use lib '../../../blib/lib';
+
+use RPC::ExtDirect::Demo::TestAction;
+use RPC::ExtDirect::Demo::Profile;
+use RPC::ExtDirect::Demo::PollProvider;
+
+use CGI::ExtDirect;
+
+my $direct = CGI::ExtDirect->new({ debug => 1 });
+
+print $direct->route();
+
+exit 0;

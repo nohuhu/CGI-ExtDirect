@@ -1,0 +1,22 @@
+#!PUT_PERL_HERE
+
+use CGI::ExtDirect;
+
+use RPC::ExtDirect::API     Namespace       => 'Namespace',
+                            Router_path     => '/cgi-bin/router.cgi',
+                            Poll_path       => '/cgi-bin/events.cgi',
+                            Remoting_var    => 'Ext.app.CALL',
+                            Polling_var     => 'Ext.app.POLL',
+                        ;
+
+use lib '../lib';
+use RPC::ExtDirect::Test::Foo;
+use RPC::ExtDirect::Test::Bar;
+use RPC::ExtDirect::Test::Qux;
+use RPC::ExtDirect::Test::PollProvider;
+
+my $cgi = CGI::ExtDirect->new({ debug => 1 });
+
+print $cgi->api();
+
+exit 0;

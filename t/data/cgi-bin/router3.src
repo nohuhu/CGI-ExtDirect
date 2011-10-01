@@ -1,0 +1,30 @@
+#!PUT_PERL_HERE
+
+use CGI 'cookie';
+use CGI::ExtDirect;
+
+use lib '../lib';
+use RPC::ExtDirect::Test::Foo;
+use RPC::ExtDirect::Test::JuiceBar;
+use RPC::ExtDirect::Test::Qux;
+
+my $cookie = cookie(-name=>'sessionID',
+                    -value=>'xyzzy',
+                    -expires=>'Thursday, 25-Apr-1999 00:40:33 GMT',
+                    -path=>'/cgi-bin/database',
+                    -domain=>'.capricorn.org',
+                    -secure=>1);
+
+my %headers = (
+    '-Status'           => '204 No Response',
+    '-Content-type'     => 'text/plain',
+    '-ChArSeT'          => 'iso-8859-1',
+    '-Content_Length'   => '123123',
+    '-cookie'           => $cookie,
+);
+
+my $cgi = CGI::ExtDirect->new({ debug => 1 });
+
+print $cgi->route( %headers );
+
+exit 0;

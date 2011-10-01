@@ -1,0 +1,32 @@
+#!PUT_PERL_HERE
+
+use CGI;
+use CGI::ExtDirect;
+
+use lib '../lib';
+use RPC::ExtDirect::Test::PollProvider;
+
+local $RPC::ExtDirect::Test::PollProvider::WHAT_YOURE_HAVING = '';
+
+my $q = CGI->new();
+
+my $extdirect = CGI::ExtDirect->new({ cgi => $q, debug => 1 });
+
+my $cookie = $q->cookie(-name=>'sessionID',
+                        -value=>'xyzzy',
+                        -expires=>'Thursday, 25-Apr-1999 00:40:33 GMT',
+                        -path=>'/cgi-bin/database',
+                        -domain=>'.capricorn.org',
+                        -secure=>1);
+
+my %headers = (
+    '-Status'           => '204 No Response',
+    '-Content-type'     => 'text/plain',
+    '-ChArSeT'          => 'iso-8859-1',
+    '-Content_Length'   => '123123',
+    '-cookie'           => $cookie,
+);
+
+print $extdirect->poll( %headers );
+
+exit 0;

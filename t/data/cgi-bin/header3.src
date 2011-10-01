@@ -1,0 +1,21 @@
+#!PUT_PERL_HERE
+
+use CGI::ExtDirect;
+
+use lib '../lib';
+use RPC::ExtDirect::Test::PollProvider;
+
+local $RPC::ExtDirect::Test::PollProvider::WHAT_YOURE_HAVING = '';
+
+my $cgi = CGI::ExtDirect->new({ debug => 1 });
+
+my %headers = (
+    '-Status'           => '204 No Response',
+    '-Content-type'     => 'text/plain',
+    '-ChArSeT'          => 'iso-8859-1',
+    '-Content_Length'   => '123123',
+);
+
+print $cgi->poll( %headers );
+
+exit 0;
