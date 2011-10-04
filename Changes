@@ -1,4 +1,7 @@
 Revision history for Perl extension CGI::ExtDirect.
 
+1.01  Tue Oct  4 21:35:06 2011
+    - Bumped required RPC::ExtDirect version to 1.20.
+
 1.00  Sat Oct  1 20:59:11 2011
 	- original version.

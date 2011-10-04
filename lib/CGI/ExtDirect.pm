@@ -16,7 +16,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #

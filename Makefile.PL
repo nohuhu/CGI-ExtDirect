@@ -47,7 +47,7 @@ WriteMakefile(
     NAME              => 'CGI::ExtDirect',
     VERSION_FROM      => 'lib/CGI/ExtDirect.pm', # finds $VERSION
     PREREQ_PM         => {
-        'RPC::ExtDirect' => '1.10',
+        'RPC::ExtDirect' => '1.20',
         'Test::More'     => 0,
         'CGI::Test'      => '0.2',
     },
