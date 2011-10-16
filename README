@@ -47,14 +47,7 @@ DEPENDENCIES
 This module requires these other modules and libraries:
 
   RPC::ExtDirect, JSON, Attribute::Handlers, Test::More,
-  CGI::Test 0.200
-
-At the time of writing this, CGI::Test available on CPAN is long
-unmaintaned and is completely broken due to grossly outdated
-dependencies. I have updated it to be usable again but since I
-do not have maintenance rights with this module I cannot upload
-it to CPAN. For the time being it is available on Github.com:
-https://github.com/nohuhu/CGI-Test
+  CGI::Test 0.2.2
 
 COPYRIGHT AND LICENSE
 

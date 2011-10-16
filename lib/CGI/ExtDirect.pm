@@ -16,7 +16,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '1.01';
+our $VERSION = '1.10';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -272,7 +272,7 @@ sub _munge_headers {
 # goes too wrong to recover.
 
 my @STANDARD_KEYWORDS
-    = qw(action method extAction extMethod extTID extUpload); 
+    = qw(action method extAction extMethod extTID extUpload extType); 
 my %STANDARD_KEYWORD = map { $_ => 1 } @STANDARD_KEYWORDS;
 
 sub _extract_post_data {
@@ -324,6 +324,9 @@ sub _extract_post_data {
             delete $keyword{ $param };
         };
     };
+
+    # Remove extType because it's meaningless later on
+    delete $keyword{ extType };
 
     # Fix TID so that it comes as number (JavaScript is picky)
     $keyword{ extTID } += 0 if exists $keyword{ extTID };

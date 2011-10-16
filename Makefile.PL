@@ -49,7 +49,7 @@ WriteMakefile(
     PREREQ_PM         => {
         'RPC::ExtDirect' => '1.20',
         'Test::More'     => 0,
-        'CGI::Test'      => '0.2',
+        'CGI::Test'      => '0.2.1',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
