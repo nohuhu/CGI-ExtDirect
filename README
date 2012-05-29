@@ -1,4 +1,4 @@
-CGI-ExtDirect version 1.00
+CGI-ExtDirect version 1.11
 ==========================
 
 This module implement RPC::ExtDirect gateway for CGI environment.
@@ -7,14 +7,14 @@ and HTTP::Server::Simple::CGI applications.
 
 In fact, CGI::ExtDirect is dependent on only two non-core modules:
 Attribute::Handlers and JSON, both of which support Perl 5.6 and
-are pure Perl modules. Test suite is based on CGI::Test which does
-have some non-trivial dependencies but it is not needed for normal
-operation and in some cases may be skipped.
+are pure Perl modules. Test suite is based on CGI::Test which is
+only used for testing; it is not needed for normal operation and
+in some cases may be skipped.
 
 What this means is that now there is an easy way to provide older CGI
 applications that are unfeasible (or plain impossible) to refactor
 with simple and easy to use interface to one of the most advanced
-JavaScript frameworks available on the market.
+JavaScript frameworks available.
 
 RPC::ExtDirect is an implementation of Ext.Direct remoting protocol
 used in Sencha Inc. ExtJS JavaScript framework.
@@ -46,12 +46,11 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  RPC::ExtDirect, JSON, Attribute::Handlers, Test::More,
-  CGI::Test 0.2.2
+  RPC::ExtDirect, JSON, Attribute::Handlers.
 
 COPYRIGHT AND LICENSE
 
-Copyright (C) 2011 by Alexander Tokarev, <tokarev@cpan.org>
+Copyright (C) 2011-2012 by Alexander Tokarev, <tokarev@cpan.org>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.6.0 or,
@@ -61,3 +60,4 @@ Included Ext JS examples are copyright (c) 2011, Sencha Inc. Example code
 is used and distributed under GPL 3.0 license as provided by Sencha Inc.
 See http://www.sencha.com/license. Ext JS is available for download at
 http://www.sencha.com/products/extjs/
+

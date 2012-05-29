@@ -16,7 +16,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '1.10';
+our $VERSION = '1.11';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -596,7 +596,7 @@ Alexander Tokarev E<lt>tokarev@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2011 Alexander Tokarev.
+Copyright (c) 2011-2012 Alexander Tokarev.
 
 This module is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself. See L<perlartistic>.

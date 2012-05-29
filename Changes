@@ -1,5 +1,17 @@
 Revision history for Perl extension CGI::ExtDirect.
 
+1.11  Mon May 20 18:54:05 2012
+    - Bumped CGI::Test dependency to version 0.3 which should not
+      fail its tests anymore. Moved it to BUILD_REQUIRES section.
+
+      Bumped RPC::ExtDirect dependency version to 1.21.
+
+      Added repository and bugtracker attributes to Makefile.PL.
+
+      Updated README a bit.
+
+      No code changes this time.
+
 1.10  Mon Oct 17 00:21:42 2011
     - Fixed a (small) bug: extType parameter in form-based remoting
       calls was not caught and cleaned out before passing data hash

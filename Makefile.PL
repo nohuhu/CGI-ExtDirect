@@ -46,15 +46,25 @@ while ( @dirs ) {
 WriteMakefile(
     NAME              => 'CGI::ExtDirect',
     VERSION_FROM      => 'lib/CGI/ExtDirect.pm', # finds $VERSION
-    PREREQ_PM         => {
-        'RPC::ExtDirect' => '1.20',
+    BUILD_REQUIRES    => {
         'Test::More'     => 0,
-        'CGI::Test'      => '0.2.1',
+        'CGI::Test'      => '0.3',
+    },
+    PREREQ_PM         => {
+        'RPC::ExtDirect' => '1.21',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
        AUTHOR   => 'Alexander Tokarev <tokarev@cpan.org>',
        LICENSE  => 'perl') : ()),
+
+    META_MERGE => {
+        resources   => {
+            bugtracker  => 'http://github.com/nohuhu/CGI-ExtDirect/issues',
+            repository  => 'http://github.com/nohuhu/CGI-ExtDirect',
+        },
+    },
+
     clean => { FILES => 'examples/p5httpd.pl '.
                         'examples/htdocs/cgi-bin/*.cgi '.
                         't/cgi-bin/*.cgi' },
