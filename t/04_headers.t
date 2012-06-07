@@ -136,7 +136,7 @@ __DATA__
       http_headers => {
         'Status'            => '200 OK',
         'Content-Type'      => 'application/javascript; charset=iso-8859-1',
-        'Content-Length'    => '617',
+        'Content-Length'    => '591',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
                                '25-Apr-1999 00:40:33 GMT; secure',

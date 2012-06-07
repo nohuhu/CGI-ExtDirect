@@ -1,5 +1,16 @@
 Revision history for Perl extension CGI::ExtDirect.
 
+1.12  Thu Jun  7 13:41:33 2012
+    - Fixed a bug in handling uploaded files: CGI.pm below 3.41
+      did not have "handle" method in its "lightweight file handle"
+      objects, which CGI::ExtDirect relied on.
+      Somehow this bug only manifested itself in Perl 5.10.0.
+
+    - Fixed Makefile.PL to produce BUILD_REQUIRES only for
+      ExtUtils::MakeMaker that support it (>=6.55).
+
+    - Bumped RPC::Dependency to freshly released 1.30.
+
 1.11  Mon May 20 18:54:05 2012
     - Bumped CGI::Test dependency to version 0.3 which should not
       fail its tests anymore. Moved it to BUILD_REQUIRES section.

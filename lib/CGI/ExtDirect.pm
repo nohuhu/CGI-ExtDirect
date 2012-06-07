@@ -5,6 +5,7 @@ use warnings;
 no  warnings 'uninitialized';       ## no critic
 
 use Carp;
+use IO::Handle;
 use File::Basename qw(basename);
 
 use RPC::ExtDirect::API;
@@ -16,7 +17,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '1.11';
+our $VERSION = '1.12';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -371,8 +372,9 @@ sub _parse_uploads {
         # We can't do anything about it anyway so just stop trying.
         last FILE unless defined $file_handle;
 
-        # IO::Handle is more handy (no pun intended) (well, not much)
-        my $io_handle = $file_handle->handle;
+        # In CGI.pm < 3.41, "lightweight handle" object doesn't support
+        # returning IO::Handle so we do it manually to avoid problems
+        my $io_handle = IO::Handle->new_from_fd(fileno $file_handle, '<');
 
         # We also need a lot of info about the file (if provided)
         my $upload_info = $cgi->uploadInfo($key);
