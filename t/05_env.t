@@ -2,7 +2,7 @@ use strict;
 use warnings;
 no  warnings 'uninitialized';
 
-use Test::More tests => 13;
+use Test::More tests => 25;
 
 use CGI::Test ();       # No need to import ok() from CGI::Test
 use CGI::Test::Input ();
@@ -11,7 +11,7 @@ use CGI::Test::Input::Multipart ();
 
 BEGIN { use_ok 'CGI::ExtDirect'; }
 
-my $dfile = 't/data/extdirect/api';
+my $dfile = 't/data/extdirect/env';
 my $tests = eval do { local $/; open my $fh, '<', $dfile; <$fh> } ## no critic
     or die "Can't eval $dfile: '$@'";
 
@@ -19,6 +19,9 @@ my $tests = eval do { local $/; open my $fh, '<', $dfile; <$fh> } ## no critic
 my $ct = CGI::Test->new(
     -base_url => 'http://localhost/cgi-bin',
     -cgi_dir  => 't/cgi-bin',
+    -cgi_env  => {
+        HTTP_COOKIE => 'foo=bar',
+    },
 );
 
 BAIL_OUT "Can't create CGI::Test object" unless $ct;
@@ -55,11 +58,41 @@ for my $test ( @$tests ) {
 exit 0;
 
 sub raw_post {
-    my $input = shift;
+    my ($url, $input) = @_;
 
     use bytes;
-    my $cgi_input        = CGI::Test::Input::URL->new();
+    my $cgi_input = CGI::Test::Input::URL->new();
     $cgi_input->add_field('POSTDATA', $input);
 
     return $cgi_input;
-};
+}
+
+sub form_post {
+    my ($url, %fields) = @_;
+
+    use bytes;
+    my $cgi_input = CGI::Test::Input::URL->new();
+    for my $field ( keys %fields ) {
+        my $value = $fields{ $field };
+        $cgi_input->add_field($field, $value);
+    };
+
+    return $cgi_input;
+}
+
+sub form_upload {
+    my ($url, $files, %fields) = @_;
+
+    my $cgi_input = CGI::Test::Input::Multipart->new();
+
+    for my $field ( keys %fields ) {
+        my $value = $fields{ $field };
+        $cgi_input->add_field($field, $value);
+    };
+
+    for my $file ( @$files ) {
+        $cgi_input->add_file_now("upload", "t/data/cgi-data/$file");
+    };
+
+    return $cgi_input;
+}

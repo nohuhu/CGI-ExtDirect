@@ -1,9 +1,8 @@
 use strict;
 use warnings;
+no  warnings 'uninitialized';
 
 use Test::More tests => 55;
-
-use Data::Dumper;
 
 use CGI::Test ();       # No need to import ok() from CGI::Test
 use CGI::Test::Input ();
@@ -38,8 +37,6 @@ for my $test ( @$tests ) {
         is   $http_status,  $http_status_exp, "$name HTTP status";
 
         my $http_headers = $ct->http_headers;
-
-#        print Data::Dumper->Dump( [ $http_headers ], [ 'headers' ] );
 
         for my $exp_header ( keys %$expected_headers ) {
             ok exists $http_headers->{ $exp_header }, "$exp_header exists";

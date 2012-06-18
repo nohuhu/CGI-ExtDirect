@@ -1,11 +1,16 @@
 package RPC::ExtDirect::Test::JuiceBar;
 
+use strict;
+use warnings;
+no  warnings 'uninitialized';
+
 use base 'RPC::ExtDirect::Test::Foo';
 
 use RPC::ExtDirect;
 
 use Carp;
-use Data::Dumper;
+
+use Test::More;
 
 our $CHEAT = 0;
 
@@ -13,11 +18,13 @@ our $CHEAT = 0;
 sub bar_foo : ExtDirect(4) { croak 'bar foo!' }
 
 # Return number of passed arguments
-sub bar_bar : ExtDirect(5) { shift; return scalar @_; }
+sub bar_bar : ExtDirect(5) { shift; pop; return scalar @_; }
 
 # This is a form handler
 sub bar_baz : ExtDirect( formHandler ) {
     my ($class, %param) = @_;
+
+    my $cgi = delete $param{_env};
 
     # Simulate uploaded file handling
     my $uploads = $param{file_uploads};

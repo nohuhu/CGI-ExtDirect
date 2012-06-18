@@ -1,4 +1,6 @@
-Revision history for Perl extension CGI::ExtDirect.
+2.00  Mon Jun 18 14:15:11 2012
+    - Updated code, documentation and test suite to accommodate
+      for new features in RPC::ExtDirect 2.00.
 
 1.12  Thu Jun  7 13:41:33 2012
     - Fixed a bug in handling uploaded files: CGI.pm below 3.41
@@ -6,7 +8,7 @@ Revision history for Perl extension CGI::ExtDirect.
       objects, which CGI::ExtDirect relied on.
       Somehow this bug only manifested itself in Perl 5.10.0.
 
-    - Fixed Makefile.PL to produce BUILD_REQUIRES only for
+    - Fixed Makefile.PL to produce BUILD_REQUIRES only for 
       ExtUtils::MakeMaker that support it (>=6.55).
 
     - Bumped RPC::Dependency to freshly released 1.30.

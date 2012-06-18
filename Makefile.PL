@@ -52,13 +52,13 @@ WriteMakefile(
             'CGI::Test'      => '0.3',
           },
           PREREQ_PM         => {
-            'RPC::ExtDirect' => '1.21',
+            'RPC::ExtDirect' => '2.00',
           },
         )
         : ( PREREQ_PM => {
                 'Test::More'     => 0,
                 'CGI::Test'      => '0.3',
-                'RPC::ExtDirect' => '1.21',
+                'RPC::ExtDirect' => '2.00',
             },
         )
     ),
@@ -68,14 +68,14 @@ WriteMakefile(
        LICENSE  => 'perl') : ()),
 
     ($ExtUtils::MakeMaker::VERSION >= 6.46
-      ? ( META_MERGE => {
+        ? ( META_MERGE => {
             resources   => {
                 bugtracker  => 'http://github.com/nohuhu/CGI-ExtDirect/issues',
                 repository  => 'http://github.com/nohuhu/CGI-ExtDirect',
             },
-        },
-      )
-      : ()
+           },
+        )
+        : ()
     ),
 
     clean => { FILES => 'examples/p5httpd.pl '.

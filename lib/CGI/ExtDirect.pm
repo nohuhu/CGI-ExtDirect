@@ -8,6 +8,7 @@ use Carp;
 use IO::Handle;
 use File::Basename qw(basename);
 
+use RPC::ExtDirect ();
 use RPC::ExtDirect::API;
 use RPC::ExtDirect::Router;
 use RPC::ExtDirect::EventProvider;
@@ -17,7 +18,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '1.12';
+our $VERSION = '2.00';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -25,17 +26,17 @@ our $VERSION = '1.12';
 #
 
 sub new {
-    my ($class, $arguments) = @_;
+    my $class = shift;
 
-    # Arguments should be either hashref or undef
-    croak "CGI::ExtDirect argument must be hashref"
-        if defined $arguments && ref $arguments ne 'HASH';
+    my %params = @_ == 1 && 'HASH' eq ref $_[0] ? %{ $_[0] }
+               :                                  @_
+               ;
 
     # We need CGI object for input
-    my $cgi = $arguments->{cgi} || do { require CGI; new CGI; };
+    my $cgi = $params{cgi} || do { require CGI; new CGI };
 
     # Debug flag defaults to off
-    my $debug = exists $arguments->{debug} ? $arguments->{debug} : 0;
+    my $debug = exists $params{debug} ? $params{debug} : 0;
 
     my $self = bless { cgi => $cgi, debug => $debug }, $class;
 
@@ -103,15 +104,23 @@ sub route {
         unless defined $router_input;
 
     # Routing requests is safe (Router won't croak under torture)
-    my $result = RPC::ExtDirect::Router->route($router_input);
+    my $result = RPC::ExtDirect::Router->route($router_input, $self->cgi);
 
-    # Content type depends on call type
-    my $content_type = $result->[0];
-    my $http_body    = $result->[1];
+    my ($content_type, $http_body, $content_length);
+
+    # Older RPC::ExtDirect version returned two-element array
+    if ( $RPC::ExtDirect::VERSION lt '2.00' ) {
+        $content_type   = $result->[0];
+        $http_body      = $result->[1];
+        $content_length = do { no warnings; use bytes; length $http_body; };
+    }
+    else {
+        $content_type   = $result->[1]->[1];
+        $content_length = $result->[1]->[3];
+        $http_body      = $result->[2]->[0];
+    };
+
     my $http_status  = '200 OK';
-
-    # And we need content length, too (in octets)
-    my $content_length = do { use bytes; length $http_body; };
 
     # Munge the headers passed on us
     my @real_headers = $self->_munge_headers($content_type,
@@ -142,7 +151,7 @@ sub poll {
         if $self->cgi->request_method() !~ / \A (GET|POST) \z /xms;
 
     # Polling for Events is safe
-    my $http_body = RPC::ExtDirect::EventProvider->poll();
+    my $http_body = RPC::ExtDirect::EventProvider->poll($self->cgi);
 
     # Gather variables for HTTP response
     my $content_type = 'application/json';
@@ -447,6 +456,18 @@ CGI::ExtDirect - Ext.Direct remoting interface for CGI applications
 In api.cgi:
 
     use CGI::ExtDirect;
+    use RPC::ExtDirect::API api_path     => '/extdirect_api',
+                            router_path  => '/extdirect_router',
+                            poll_path    => '/extdirect_events',
+                            remoting_var => 'Ext.app.REMOTING_API',
+                            polling_var  => 'Ext.app.POLLING_API',
+                            namespace    => 'myApp',  # Defaults to empty
+                            auto_connect => 0,
+                            no_polling   => 0,
+                            debug        => 0,
+                            before       => \&global_before_hook,
+                            after        => \&global_after_hook,
+                            ;
     
     use My::ExtDirect::Published::Module::Foo;
     use My::ExtDirect::Published::Module::Bar;
@@ -461,16 +482,6 @@ In router.cgi:
 
     use CGI::ExtDirect;
     
-    use RPC::ExtDirect::API api_path     => '/extdirect_api',
-                            router_path  => '/extdirect_router',
-                            poll_path    => '/extdirect_events',
-                            remoting_var => 'Ext.app.REMOTING_API',
-                            polling_var  => 'Ext.app.POLLING_API',
-                            namespace    => 'myApp',  # Defaults to empty
-                            auto_connect => 0,
-                            no_polling   => 0,
-                            debug        => 0;
-    
     use My::ExtDirect::Published::Module::Foo;
     use My::ExtDirect::Published::Module::Bar;
     
@@ -481,7 +492,7 @@ In router.cgi:
         -cookie  => $cookie,
     );
     
-    my $direct = CGI::ExtDirect->new({ debug => $debug });
+    my $direct = CGI::ExtDirect->new( debug => $debug );
     
     print $direct->route(%headers);    # Prints full HTTP response
 
@@ -501,18 +512,19 @@ In poll.cgi:
     # do something with $cgi but do not print headers
     ...
     
-    my $direct = CGI::ExtDirect->new({ cgi => $cgi, debug => $debug });
+    my $direct = CGI::ExtDirect->new( cgi => $cgi, debug => $debug );
     
     print $direct->poll();
 
 =head1 DESCRIPTION
 
 This module provides RPC::ExtDirect gateway implementation for CGI
-environment. It can be used wth Perl versions 5.6 and newer in about
-any environment; it was tested successfully with Apache, pure Perl
-server based on HTTP::Server::Simple and various other HTTP servers.
+compatible HTTP servers. It can be used wth Perl versions 5.6 and
+newer in about any environment; it was tested successfully with
+Apache, pure Perl server based on HTTP::Server::Simple and various
+other HTTP servers.
 
-You can change some default configuration options by passing relevant
+You can change default configuration options by passing corresponding
 parameters like shown above. For the meaning of parameters, see
 L<RPC::ExtDirect::API> documentation.
 
@@ -583,14 +595,20 @@ use it in CGI applications.
 
 =head1 ACKNOWLEDGEMENTS
 
+I would like to thank IntelliSurvey, Inc for sponsoring my work
+on version 2.0 of RPC::ExtDirect suite of modules.
+
 The tiny but CGI-capable HTTP server used to provide working examples
 is (c) 2002-2004 by Hans Lub, <hlub@knoware.nl>. It is called p5httpd
 and can be found here: L<http://utopia.knoware.nl/~hlub/rlwrap/>
 
 =head1 BUGS AND LIMITATIONS
 
-There are no known bugs in this module. Use CPAN RT to report bugs
-(better way) or just drop me an e-mail. Patches are welcome.
+Hooks functionality depend on RPC::ExtDirect 2.0 which is incompatible
+with Perls older than 5.12.
+
+There are no known bugs in this module. Use github tracker to report
+bugs (better way) or just drop me an e-mail. Patches are welcome.
 
 =head1 AUTHOR
 
@@ -609,3 +627,4 @@ See L<http://www.sencha.com/license>. Ext JS is available for download at
 L<http://www.sencha.com/products/extjs/>
 
 =cut
+

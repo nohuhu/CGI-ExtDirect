@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+no  warnings 'uninitialized';
 
 use Test::More tests => 25;
 
@@ -47,10 +48,7 @@ for my $test ( @$tests ) {
         $expected_output =~ s/\s//g;
 
         is $http_output, $expected_output, "$name content"
-            or do {
-                local $Data::Dumper::Indent = 1;
-                BAIL_OUT( Data::Dumper->Dump( [ $page ], [ 'page' ] ) );
-            };
+            or diag explain $page;
 
         $page->delete();
     };

@@ -21,6 +21,7 @@ t/01_api.t
 t/02_router.t
 t/03_poll.t
 t/04_headers.t
+t/05_env.t
 t/data/cgi-bin/api1.src
 t/data/cgi-bin/api2.src
 t/data/cgi-bin/api3.src
@@ -37,6 +38,7 @@ t/data/cgi-bin/poll5.src
 t/data/cgi-bin/router1.src
 t/data/cgi-bin/router2.src
 t/data/cgi-bin/router3.src
+t/data/cgi-bin/env.src
 t/data/cgi-data/bar.png
 t/data/cgi-data/foo.jpg
 t/data/cgi-data/qux.txt
@@ -48,11 +50,13 @@ t/data/examples/p5httpd.src
 t/data/extdirect/api
 t/data/extdirect/poll
 t/data/extdirect/route
+t/data/extdirect/env
 t/lib/RPC/ExtDirect/Test/Bar.pm
 t/lib/RPC/ExtDirect/Test/Foo.pm
 t/lib/RPC/ExtDirect/Test/JuiceBar.pm
 t/lib/RPC/ExtDirect/Test/PollProvider.pm
 t/lib/RPC/ExtDirect/Test/Qux.pm
+t/lib/RPC/ExtDirect/Test/Env.pm
 t/pod.t
 t/cgi-bin/.placeholder
 examples/htdocs/cgi-bin/.placeholder

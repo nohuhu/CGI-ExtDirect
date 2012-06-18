@@ -1,5 +1,9 @@
 package RPC::ExtDirect::Test::Foo;
 
+use strict;
+use warnings;
+no  warnings 'uninitialized';
+
 use RPC::ExtDirect;
 
 # Return scalar result
@@ -21,7 +25,7 @@ sub foo_baz : ExtDirect( params => [foo, bar, baz] ) {
                 bar => $param{bar},      baz => $param{baz},
               };
 
-    delete @param{ qw(foo bar baz) };
+    delete @param{ qw(foo bar baz _env) };
     @$ret{ keys %param } = values %param;
 
     return $ret;

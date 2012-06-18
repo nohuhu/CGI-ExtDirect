@@ -1,4 +1,4 @@
-CGI-ExtDirect version 1.11
+CGI-ExtDirect version 2.00
 ==========================
 
 This module implement RPC::ExtDirect gateway for CGI environment.
