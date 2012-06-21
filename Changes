@@ -1,3 +1,9 @@
+2.02  Thu Jun 21 10:27:33 2012
+    - Fixed a bug in t/05_env.t
+
+2.01  Wed Jun 20 18:37:54 2012
+    - Minor documentation tweaks.
+
 2.00  Mon Jun 18 14:15:11 2012
     - Updated code, documentation and test suite to accommodate
       for new features in RPC::ExtDirect 2.00.

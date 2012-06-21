@@ -1,5 +1,5 @@
-CGI-ExtDirect version 2.00
-==========================
+CGI::ExtDirect
+==============
 
 This module implement RPC::ExtDirect gateway for CGI environment.
 It was successfully tested with Perl 5.6 and newer in Apache CGI

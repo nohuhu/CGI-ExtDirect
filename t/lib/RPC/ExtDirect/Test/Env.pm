@@ -9,7 +9,7 @@ use RPC::ExtDirect class => 'Env';
 sub http_list : ExtDirect(0) {
     my ($class, $env) = @_;
 
-    my @list = $env->http();
+    my @list = sort $env->http();
 
     return [ @list ];
 }
@@ -23,7 +23,7 @@ sub http_header : ExtDirect(1) {
 sub param_list : ExtDirect(0) {
     my ($class, $env) = @_;
 
-    my @list = $env->param();
+    my @list = sort $env->param();
 
     return [ @list ];
 }
@@ -37,7 +37,7 @@ sub param_get : ExtDirect(1) {
 sub cookie_list : ExtDirect(0) {
     my ($class, $env) = @_;
 
-    my @cookies = $env->cookie();
+    my @cookies = sort $env->cookie();
 
     return [ @cookies ];
 }

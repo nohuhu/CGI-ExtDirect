@@ -18,7 +18,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '2.00';
+our $VERSION = '2.02';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -542,8 +542,18 @@ where and what error has happened.
 
 Creates a new CGI::ExtDirect object. $arguments is an optional hashref
 with the following options:
-    cgi     - Instantiated CGI or similar object.
-    debug   - Debug flag, defaults to off. See the note above.
+
+=over 8
+
+=item cgi
+
+Instantiated CGI or similar object.
+
+=item debug
+
+Debug flag, defaults to off. See the note above.
+
+=back
 
 =item api(%headers)
 

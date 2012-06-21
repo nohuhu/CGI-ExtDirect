@@ -11,8 +11,8 @@
         http_status => 200, content_type => qr|^application/json\b|,
         expected_content =>
             q|{"action":"Env","method":"http_list","result":|.
-            q|["HTTP_ACCEPT","HTTP_USER_AGENT","HTTP_CONNECTION",|.
-            q|"HTTP_ACCEPT_CHARSET","HTTP_COOKIE","HTTP_HOST"],|.
+            q|["HTTP_ACCEPT","HTTP_ACCEPT_CHARSET","HTTP_CONNECTION",|.
+            q|"HTTP_COOKIE","HTTP_HOST","HTTP_USER_AGENT"],|.
             q|"tid":1,"type":"rpc"}|,
     },
     {

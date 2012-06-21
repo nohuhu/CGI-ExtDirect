@@ -2,14 +2,23 @@ use strict;
 use warnings;
 no  warnings 'uninitialized';
 
-use Test::More tests => 25;
+use Test::More;
 
 use CGI::Test ();       # No need to import ok() from CGI::Test
 use CGI::Test::Input ();
 use CGI::Test::Input::URL ();
 use CGI::Test::Input::Multipart ();
 
-BEGIN { use_ok 'CGI::ExtDirect'; }
+use RPC::ExtDirect;
+
+if ( $RPC::ExtDirect::VERSION < 2.00 ) {
+    plan skip_all => "RPC::ExtDirect < 2.00 doesn't support Env objects";
+    exit 0;
+};
+
+plan tests => 25;
+
+use_ok 'CGI::ExtDirect';
 
 my $dfile = 't/data/extdirect/env';
 my $tests = eval do { local $/; open my $fh, '<', $dfile; <$fh> } ## no critic

@@ -52,13 +52,13 @@ WriteMakefile(
             'CGI::Test'      => '0.3',
           },
           PREREQ_PM         => {
-            'RPC::ExtDirect' => '2.00',
+            'RPC::ExtDirect' => '2.02',
           },
         )
         : ( PREREQ_PM => {
                 'Test::More'     => 0,
                 'CGI::Test'      => '0.3',
-                'RPC::ExtDirect' => '2.00',
+                'RPC::ExtDirect' => '2.02',
             },
         )
     ),
@@ -82,3 +82,4 @@ WriteMakefile(
                         'examples/htdocs/cgi-bin/*.cgi '.
                         't/cgi-bin/*.cgi' },
 );
+
