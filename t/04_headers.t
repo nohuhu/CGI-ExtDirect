@@ -39,9 +39,11 @@ for my $test ( @$tests ) {
         my $http_headers = $ct->http_headers;
 
         for my $exp_header ( keys %$expected_headers ) {
-            ok exists $http_headers->{ $exp_header }, "$exp_header exists";
+            ok exists $http_headers->{ $exp_header },
+                "$name $exp_header exists";
             is $http_headers->{ $exp_header },
-               $expected_headers->{ $exp_header },    "$exp_header value";
+               $expected_headers->{ $exp_header }, "$name $exp_header value"
+                    or diag explain $page;
         };
 
         $page->delete();
@@ -133,7 +135,7 @@ __DATA__
       http_headers => {
         'Status'            => '200 OK',
         'Content-Type'      => 'application/javascript; charset=iso-8859-1',
-        'Content-Length'    => '591',
+        'Content-Length'    => '576',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
                                '25-Apr-1999 00:40:33 GMT; secure',

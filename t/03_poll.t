@@ -5,6 +5,7 @@ no  warnings 'uninitialized';
 use Test::More tests => 21;
 
 use Data::Dumper;
+use JSON;
 
 use CGI::Test ();       # No need to import ok() from CGI::Test
 use CGI::Test::Input ();
@@ -44,11 +45,12 @@ for my $test ( @$tests ) {
         is   $http_status,  $http_status_exp, "$name HTTP status";
 
         my $http_output  = $page->raw_content();
-        $http_output     =~ s/\s//g;
-        $expected_output =~ s/\s//g;
 
-        is $http_output, $expected_output, "$name content"
-            or diag explain $page;
+        my $actual_data   = JSON::from_json($http_output);
+        my $expected_data = JSON::from_json($expected_output);
+
+        is_deeply $actual_data, $expected_data, "$name content"
+            or diag explain $actual_data;
 
         $page->delete();
     };

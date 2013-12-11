@@ -4,6 +4,8 @@ no  warnings 'uninitialized';
 
 use Test::More tests => 13;
 
+use RPC::ExtDirect::Test::Util;
+
 use CGI::Test ();       # No need to import ok() from CGI::Test
 use CGI::Test::Input ();
 use CGI::Test::Input::URL ();
@@ -41,12 +43,12 @@ for my $test ( @$tests ) {
         like $content_type, $content_regex,   "$name content type";
         is   $http_status,  $http_status_exp, "$name HTTP status";
 
-        my $http_output  = $page->raw_content();
-        $http_output     =~ s/\s//g;
-        $expected_output =~ s/\s//g;
+        my $http_output   = $page->raw_content();
+        my $actual_data   = deparse_api($http_output);
+        my $expected_data = deparse_api($expected_output);
 
-        is $http_output, $expected_output, "$name content"
-            or diag explain $page;
+        is_deeply $actual_data, $expected_data, "$name content"
+            or diag explain $actual_data;
 
         $page->delete();
     };

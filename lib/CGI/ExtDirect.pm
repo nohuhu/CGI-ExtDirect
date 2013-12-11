@@ -8,21 +8,27 @@ use Carp;
 use IO::Handle;
 use File::Basename qw(basename);
 
-use RPC::ExtDirect ();
+use RPC::ExtDirect::Config;
 use RPC::ExtDirect::API;
-use RPC::ExtDirect::Router;
-use RPC::ExtDirect::EventProvider;
+use RPC::ExtDirect;
+
+#
+# This module is not compatible with RPC::ExtDirect < 3.0
+#
+
+die "CGI::ExtDirect requires RPC::ExtDirect 3.0+"
+    if $RPC::ExtDirect::VERSION < 3.0;
 
 ### PACKAGE GLOBAL VARIABLE ###
 #
 # Version of this module.
 #
 
-our $VERSION = '2.02';
+our $VERSION = '3.00_01';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
-# Instantiates CGI::ExtDirect object
+# Instantiate a new CGI::ExtDirect object
 #
 
 sub new {
@@ -31,14 +37,22 @@ sub new {
     my %params = @_ == 1 && 'HASH' eq ref $_[0] ? %{ $_[0] }
                :                                  @_
                ;
-
-    # We need CGI object for input
+    
+    my $config = delete $params{config} || RPC::ExtDirect::Config->new();
+    my $api    = delete $params{api}    || RPC::ExtDirect->get_api();
+    
+    # We need a CGI object for input processing
     my $cgi = $params{cgi} || do { require CGI; new CGI };
 
     # Debug flag defaults to off
-    my $debug = exists $params{debug} ? $params{debug} : 0;
+    $config->debug( $params{debug} ) if $params{debug};
 
-    my $self = bless { cgi => $cgi, debug => $debug }, $class;
+    my $self = bless {
+        config  => $config,
+        api_obj => $api,
+        cgi     => $cgi,
+        %params,
+    }, $class;
 
     return $self;
 }
@@ -51,11 +65,10 @@ sub new {
 sub api {
     my ($self, @headers) = @_;
 
-    # Set the debug flag
-    local $RPC::ExtDirect::API::DEBUG = $self->debug;
-
     # Get the API JavaScript
-    my $js = eval { RPC::ExtDirect::API->get_remoting_api() };
+    my $js = eval {
+        $self->api_obj->get_remoting_api( config => $self->config )
+    };
 
     # If JS API call failed, return error headers
     # What exactly went wrong is not too relevant here
@@ -89,9 +102,6 @@ sub api {
 sub route {
     my ($self, @headers) = @_;
 
-    # First set the debug flag
-    local $RPC::ExtDirect::Router::DEBUG = $self->debug;
-
     # If any but POST method is used, just throw an error
     return $self->error_headers(@headers)
         if $self->cgi->request_method() ne 'POST';
@@ -102,25 +112,27 @@ sub route {
     # When extraction fails, undef is returned
     return $self->error_headers(@headers)
         unless defined $router_input;
+    
+    my $config       = $self->config;
+    my $api          = $self->api_obj;
+    my $router_class = $config->router_class;
+    
+    eval "require $router_class";
+    
+    my $router = $router_class->new(
+        config => $config,
+        api    => $api,
+    );
 
     # Routing requests is safe (Router won't croak under torture)
-    my $result = RPC::ExtDirect::Router->route($router_input, $self->cgi);
+    my $result = $router->route($router_input, $self->cgi);
 
     my ($content_type, $http_body, $content_length);
 
-    # Older RPC::ExtDirect version returned two-element array
-    if ( $RPC::ExtDirect::VERSION lt '2.00' ) {
-        $content_type   = $result->[0];
-        $http_body      = $result->[1];
-        $content_length = do { no warnings; use bytes; length $http_body; };
-    }
-    else {
-        $content_type   = $result->[1]->[1];
-        $content_length = $result->[1]->[3];
-        $http_body      = $result->[2]->[0];
-    };
-
-    my $http_status  = '200 OK';
+    $content_type   = $result->[1]->[1];
+    $content_length = $result->[1]->[3];
+    $http_body      = $result->[2]->[0];
+    my $http_status = '200 OK';
 
     # Munge the headers passed on us
     my @real_headers = $self->_munge_headers($content_type,
@@ -143,15 +155,23 @@ sub route {
 sub poll {
     my ($self, @headers) = @_;
 
-    # First set the debug flag
-    local $RPC::ExtDirect::EventProvider::DEBUG = $self->debug;
-
     # Only GET and POST methods are supported for polling
     return $self->error_headers(@headers)
         if $self->cgi->request_method() !~ / \A (GET|POST) \z /xms;
+    
+    my $config         = $self->config;
+    my $api            = $self->api_obj;
+    my $provider_class = $config->eventprovider_class;
+    
+    eval "require $provider_class";
+    
+    my $provider = $provider_class->new(
+        config => $config,
+        api    => $api,
+    );
 
     # Polling for Events is safe
-    my $http_body = RPC::ExtDirect::EventProvider->poll($self->cgi);
+    my $http_body = $provider->poll($self->cgi);
 
     # Gather variables for HTTP response
     my $content_type = 'application/json';
@@ -194,11 +214,12 @@ sub error_headers {
 
 ### PUBLIC INSTANCE METHODS ###
 #
-# Read-only getters
+# Read-write accessors
 #
 
-sub debug   { $_[0]->{debug} }
-sub cgi     { $_[0]->{cgi}   }
+RPC::ExtDirect::Util::Accessor->mk_accessors(
+    simple => [qw/ config api_obj cgi /],
+);
 
 ############## PRIVATE METHODS BELOW ##############
 
