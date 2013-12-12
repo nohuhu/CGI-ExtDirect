@@ -38,8 +38,8 @@ sub new {
                :                                  @_
                ;
     
-    my $config = delete $params{config} || RPC::ExtDirect::Config->new();
     my $api    = delete $params{api}    || RPC::ExtDirect->get_api();
+    my $config = delete $params{config} || $api->config;
     
     # We need a CGI object for input processing
     my $cgi = $params{cgi} || do { require CGI; new CGI };
