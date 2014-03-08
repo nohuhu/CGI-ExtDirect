@@ -16,8 +16,8 @@ use RPC::ExtDirect;
 # This module is not compatible with RPC::ExtDirect < 3.0
 #
 
-die "CGI::ExtDirect requires RPC::ExtDirect 3.0+"
-    if $RPC::ExtDirect::VERSION < 3.0;
+die __PACKAGE__." requires RPC::ExtDirect 3.0+"
+    if $RPC::ExtDirect::VERSION lt '3.0';
 
 ### PACKAGE GLOBAL VARIABLE ###
 #
@@ -67,7 +67,10 @@ sub api {
 
     # Get the API JavaScript
     my $js = eval {
-        $self->api_obj->get_remoting_api( config => $self->config )
+        $self->api_obj->get_remoting_api(
+            config => $self->config,
+            env    => $self->cgi,
+        )
     };
 
     # If JS API call failed, return error headers
@@ -335,7 +338,7 @@ sub _extract_post_data {
     # Now if the form IS involved, it gets a little bit complicated
     PARAM:
     for my $param ( keys %keyword ) {
-        # Defang CGI's idiosyncratic way to return multi-valued params
+        # Defang CGI's idiosyncratic way of returning multi-valued params
         my @values = $cgi->param( $param );
         $keyword{ $param } = @values == 0 ? undef
                            : @values == 1 ? $values[0]
@@ -395,7 +398,7 @@ sub _parse_uploads {
         # First take a closer look at this "blah-blah handle"
         my $file_handle = shift @file_handles;
 
-        # undef would mean there was upload error (timeout perhaps)
+        # undef would mean there was an upload error (timeout perhaps)
         # Following HTTP POST logic, when one upload breaks that
         # would mean all subsequent uploads in this POST are also
         # broken.
@@ -414,7 +417,7 @@ sub _parse_uploads {
         my $file_size   = $self->_get_file_size($io_handle);
         my $base_name   = basename($file_name);
 
-        # Now instead of "blah-blah handle" we have hashref full of info
+        # Now instead of "blah-blah handle" we have a hashref full of info
         push @uploads, {
             type     => $file_type,
             size     => $file_size,

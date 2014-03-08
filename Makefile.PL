@@ -6,9 +6,9 @@ my $perl = $^X;
 
 my $we_are_unixy = $^O !~ /DOS|Win32|VMS/;
 
-my @dirs = ( [ 't/data/cgi-bin',          't/cgi-bin',               ],
-             [ 't/data/examples/cgi-bin', 'examples/htdocs/cgi-bin', ],
-             [ 't/data/examples',         'examples',                ],
+my @dirs = (
+    [ 't/data/examples/cgi-bin', 'examples/htdocs/cgi-bin', ],
+    [ 't/data/examples',         'examples',                ],
 );
 
 while ( @dirs ) {
@@ -49,22 +49,22 @@ WriteMakefile(
     ($ExtUtils::MakeMaker::VERSION >= 6.55
         ? ( BUILD_REQUIRES    => {
             'Test::More'     => 0,
-            'CGI::Test'      => '0.3',
+            'CGI::Test'      => '0.31',
           },
           PREREQ_PM         => {
-            'RPC::ExtDirect' => '2.02',
+            'RPC::ExtDirect' => '3.00',
           },
         )
         : ( PREREQ_PM => {
                 'Test::More'     => 0,
-                'CGI::Test'      => '0.3',
-                'RPC::ExtDirect' => '2.02',
+                'CGI::Test'      => '0.31',
+                'RPC::ExtDirect' => '3.00',
             },
         )
     ),
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
-       AUTHOR   => 'Alexander Tokarev <tokarev@cpan.org>',
+       AUTHOR   => 'Alex Tokarev <tokarev@cpan.org>',
        LICENSE  => 'perl') : ()),
 
     ($ExtUtils::MakeMaker::VERSION >= 6.46
