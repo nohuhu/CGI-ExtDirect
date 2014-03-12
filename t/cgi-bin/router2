@@ -13,6 +13,9 @@ use RPC::ExtDirect::Test::Pkg::Qux;
 
 open STDIN, '<&=', 3 or die "Can't reopen STDIN";
 
+# Set the cheat flag for file uploads
+local $RPC::ExtDirect::Test::Pkg::JuiceBar::CHEAT = 1;
+
 my $debug   = 1;
 my %headers = ();
 

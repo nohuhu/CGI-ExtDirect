@@ -14,6 +14,9 @@ use RPC::ExtDirect::Test::Pkg::Qux;
 
 open STDIN, '<&=', 3 or die "Can't reopen STDIN";
 
+# Set the cheat flag for file uploads
+local $RPC::ExtDirect::Test::Pkg::JuiceBar::CHEAT = 1;
+
 my $cookie = cookie(-name=>'sessionID',
                     -value=>'xyzzy',
                     -expires=>'Thursday, 25-Apr-1999 00:40:33 GMT',

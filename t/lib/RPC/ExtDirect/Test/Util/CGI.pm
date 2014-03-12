@@ -33,9 +33,9 @@ sub run_tests {
     my ($tests, @run_only) = @_;
     
     my $cmp_pkg   = 'RPC::ExtDirect::Test::Util';
-    my $num_tests = @$tests;
+    my $num_tests = @run_only || @$tests;
     
-    plan tests => 4 * (@run_only || $num_tests);
+    plan tests => 4 * $num_tests;
 
     TEST:
     for my $test ( @$tests ) {
@@ -91,7 +91,7 @@ sub raw_post {
     # This can be called either as a class method, or a plain sub
     shift if $_[0] eq __PACKAGE__;
     
-    my $input = shift;
+    my ($url, $input) = @_;
 
     my $cgi_input = CGI::Test::Input::URL->new();
     $cgi_input->set_raw_data($input);

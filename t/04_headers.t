@@ -108,8 +108,10 @@ __DATA__
     },
     { name => 'Router cookie headers', method => 'POST', http_status => 200,
       url => '/router3',
-      input_content => raw_post('{"type":"rpc","tid":1,"action":"Qux",'.
-                                ' "method":"foo_foo","data":["bar"]}'),
+      input_content => raw_post(
+            'http://localhost/router',
+            '{"type":"rpc","tid":1,"action":"Qux",'.
+            ' "method":"foo_foo","data":["bar"]}'),
       http_headers => {
         'Status'            => '200 OK',
         'Content-Type'      => 'application/json; charset=iso-8859-1',
