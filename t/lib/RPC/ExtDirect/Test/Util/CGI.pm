@@ -55,9 +55,10 @@ sub run_tests {
         # CGI tests have the config hardcoded in the scripts
         my $url           = $ct->base_uri . $input->{cgi_url};
         my $method        = $input->{method};
-        my $input_content = prepare_input 'CGI', $input->{content};
+        my $input_content = $input->{cgi_content} || $input->{content};
         
-        my $page = $ct->$method($url, $input_content);
+        my $req = prepare_input 'CGI', $input_content;
+        my $page = $ct->$method($url, $req);
 
         if ( ok $page, "$name not empty" ) {
             my $want_type = $output->{content_type};
