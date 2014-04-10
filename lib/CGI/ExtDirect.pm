@@ -264,6 +264,7 @@ sub _munge_headers {
         '-status'         => qr/ \A -? status \z               /ixms,
         '-charset'        => qr/ \A -? charset \z              /ixms,
         '-content_length' => qr/ \A -? content [-_] length \z  /ixms,
+        '-nph'            => qr/ \A -? nph \z                  /ixms,
     );
 
     # Normalize them headers we need, don't touch the others
