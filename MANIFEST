@@ -13,7 +13,12 @@ examples/htdocs/examples.js
 examples/htdocs/index.html
 examples/htdocs/named-arguments.html
 examples/htdocs/named-arguments.js
+examples/htdocs/cgi-bin/api.cgi
+examples/htdocs/cgi-bin/router.cgi
+examples/htdocs/cgi-bin/poll.cgi
+examples/p5httpd
 lib/CGI/ExtDirect.pm
+lib/CGI/ExtDirect.pod
 Makefile.PL
 MANIFEST
 README
@@ -43,9 +48,4 @@ t/data/cgi-data/bar.png
 t/data/cgi-data/foo.jpg
 t/data/cgi-data/qux.txt
 t/data/cgi-data/script.js
-t/data/examples/cgi-bin/api.src
-t/data/examples/cgi-bin/poll.src
-t/data/examples/cgi-bin/router.src
-t/data/examples/p5httpd.src
 t/pod.t
-examples/htdocs/cgi-bin/.placeholder
