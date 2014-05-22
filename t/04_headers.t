@@ -78,8 +78,8 @@ __DATA__
     { name => 'Charset override', method => 'POST', http_status => 200,
       url => '/header3', input_content => undef,
       http_headers => {
-        'Status'            => '200 OK',
-        'Content-Type'      => 'application/json; charset=iso-8859-1',
+        'Status'            => '204 No Response',
+        'Content-Type'      => 'text/plain; charset=iso-8859-1',
         'Content-Length'    => '44',
       },
     },
@@ -87,8 +87,8 @@ __DATA__
       http_status => 200,
       url => '/header4', input_content => undef,
       http_headers => {
-        'Status'            => '200 OK',
-        'Content-Type'      => 'application/json; charset=iso-8859-1',
+        'Status'            => '204 No Response',
+        'Content-Type'      => 'text/plain; charset=iso-8859-1',
         'Content-Length'    => '44',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
@@ -98,8 +98,8 @@ __DATA__
     { name => 'API cookie headers', method => 'POST', http_status => 200,
       url => '/api4', input_content => undef,
       http_headers => {
-        'Status'            => '200 OK',
-        'Content-Type'      => 'application/javascript; charset=iso-8859-1',
+        'Status'            => '204 No Response',
+        'Content-Type'      => 'text/plain; charset=iso-8859-1',
         'Content-Length'    => '642',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
@@ -113,8 +113,8 @@ __DATA__
             '{"type":"rpc","tid":1,"action":"Qux",'.
             ' "method":"foo_foo","data":["bar"]}'),
       http_headers => {
-        'Status'            => '200 OK',
-        'Content-Type'      => 'application/json; charset=iso-8859-1',
+        'Status'            => '204 No Response',
+        'Content-Type'      => 'text/plain; charset=iso-8859-1',
         'Content-Length'    => '78',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
