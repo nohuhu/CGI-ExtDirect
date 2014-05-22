@@ -49,3 +49,4 @@ t/data/cgi-data/foo.jpg
 t/data/cgi-data/qux.txt
 t/data/cgi-data/script.js
 t/pod.t
+t/lib/RPC/ExtDirect/Test/Util/CGI.pm
