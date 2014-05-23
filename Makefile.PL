@@ -33,12 +33,16 @@ WriteMakefile(
             'CGI::Test'      => '0.31',
           },
           PREREQ_PM         => {
+            # 5.20 warns that CGI is going to be removed from
+            # perl distro in 5.22, so we require it here
+            'CGI'            => 0,
             'RPC::ExtDirect' => '3.00',
           },
         )
         : ( PREREQ_PM => {
                 'Test::More'     => 0,
                 'CGI::Test'      => '0.31',
+                'CGI'            => 0,
                 'RPC::ExtDirect' => '3.00',
             },
         )
