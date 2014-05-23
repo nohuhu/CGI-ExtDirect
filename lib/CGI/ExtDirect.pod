@@ -146,13 +146,15 @@ and can be used out of box.
 
 =head2 Configuration
 
-Unlike prior versions, CGI::ExtDirect 3.0+ constructor does not accept
-individual configuration options itself. You will need to create an
+To configure CGI::ExtDirect instance, you will need to create an
 instance of L<RPC::ExtDirect::Config> with all required options set,
-and pass it to CGI::ExtDirect L<constructor|/new> to be used.
+and pass it to CGI::ExtDirect L<constructor|/new> to be used. This
+step is optional; by default the Config instance in the
+L<global API instance|RPC::ExtDirect::API/"GLOBAL API TREE INSTANCE">
+will be used instead.
 
-Refer to L<RPC::ExtDirect::Config/OPTIONS> for the list of options
-and their values.
+Refer to L<RPC::ExtDirect::Config/OPTIONS> for the list of configuration
+options and their default values.
 
 =head2 Main methods
 
@@ -212,7 +214,7 @@ the header usage that also applies to the old L<CGI.pm|CGI>.
 
 =head1 OBJECT INTERFACE
 
-L<CGI::ExtDirect> provides several public methods:
+CGI::ExtDirect provides several public methods:
 
 =over 4
 
