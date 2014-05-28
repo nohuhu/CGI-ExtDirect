@@ -34,24 +34,24 @@ our $VERSION = '3.00';
 sub new {
     my $class = shift;
 
-    my %params = @_ == 1 && 'HASH' eq ref $_[0] ? %{ $_[0] }
-               :                                  @_
-               ;
+    my %arg = @_ == 1 && 'HASH' eq ref $_[0] ? %{ $_[0] }
+            :                                  @_
+            ;
     
-    my $api    = delete $params{api}    || RPC::ExtDirect->get_api();
-    my $config = delete $params{config} || $api->config;
+    my $api    = delete $arg{api}    || RPC::ExtDirect->get_api();
+    my $config = delete $arg{config} || $api->config;
     
     # We need a CGI object for input processing
-    my $cgi = $params{cgi} || do { require CGI; new CGI };
+    my $cgi = $arg{cgi} || do { require CGI; new CGI };
 
     # Debug flag defaults to off
-    $config->debug( $params{debug} ) if $params{debug};
+    $config->debug( $arg{debug} ) if exists $arg{debug};
 
     my $self = bless {
         config  => $config,
         api_obj => $api,
         cgi     => $cgi,
-        %params,
+        %arg,
     }, $class;
 
     return $self;
