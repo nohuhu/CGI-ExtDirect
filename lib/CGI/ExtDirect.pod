@@ -327,15 +327,11 @@ author, patches are always welcome.
 Use L<Github tracker|https://github.com/nohuhu/CGI-ExtDirect/issues> to open
 bug reports, this is the easiest and quickest way to get your issue fixed.
 
-=head1 AUTHOR
-
-Alex Tokarev E<lt>tokarev@cpan.orgE<gt>
-
 =for readme continue
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2011-2014 Alex Tokarev.
+Copyright (c) 2011-2014 Alex Tokarev E<lt>tokarev@cpan.orgE<gt>.
 
 This module is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself. See L<perlartistic>.
@@ -346,4 +342,3 @@ See L<http://www.sencha.com/license>. Ext JS is available for download at
 L<http://www.sencha.com/products/extjs/>
 
 =cut
-

@@ -196,7 +196,7 @@ sub poll {
     return $response;
 }
 
-### PRIVATE INSTANCE METHOD ###
+### PUBLIC INSTANCE METHOD ###
 #
 # Returns error HTTP header string. There is not much sense in
 # returning HTTP body as well since Ext.Direct calls are automated
