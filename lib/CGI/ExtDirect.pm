@@ -18,7 +18,7 @@ use RPC::ExtDirect::EventProvider;
 # Version of this module.
 #
 
-our $VERSION = '2.02';
+our $VERSION = '2.03';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
@@ -240,6 +240,7 @@ sub _munge_headers {
         '-status'         => qr/ \A -? status \z               /ixms,
         '-charset'        => qr/ \A -? charset \z              /ixms,
         '-content_length' => qr/ \A -? content [-_] length \z  /ixms,
+        '-nph'            => qr/ \A -? nph \z                  /ixms,
     );
 
     # Normalize them headers we need, don't touch the others
@@ -271,8 +272,19 @@ sub _munge_headers {
     $cgi_headers{ '-charset' } = $charset
         unless exists $cgi_headers{ '-charset' };
 
-    # We don't need to touch anything else
-    return %cgi_headers;
+    # Defang CGI.pm's interface idiosyncracies by ensuring that
+    # a header starting with a dash always comes first. Otherwise
+    # the hash key randomizer introduced in Perl 5.18 may screw up
+    # for us by placing a header with no dash in the first place,
+    # making CGI->header() think that it has been fed the first argument
+    # form header('content/type', 'HTTP status') instead of the hash
+    # form. This leads to CGI::ExtDirect returning a HTTP status line
+    # like "HTTP/1.1 1" instead of "HTTP/1.1 200 OK" *sometimes*.
+    # Dang.
+    return (
+        '-type' => delete $cgi_headers{ '-type' },
+         %cgi_headers,
+    );
 }
 
 ### PRIVATE INSTANCE METHOD ###
