@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-no  warnings 'uninitialized';
 
 # This test is CGI::ExtDirect specific, hence it is not unified with the rest
 # of the framework

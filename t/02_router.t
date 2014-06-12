@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-no  warnings 'uninitialized';
 
 use lib 't/lib';
 use RPC::ExtDirect::Test::Util::CGI;
