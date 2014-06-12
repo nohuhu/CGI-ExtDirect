@@ -45,12 +45,20 @@ for my $test ( @$tests ) {
 
         my $http_headers = $ct->http_headers;
 
-        for my $exp_header ( keys %$expected_headers ) {
-            ok exists $http_headers->{ $exp_header },
-                "$name $exp_header exists";
-            is $http_headers->{ $exp_header },
-               $expected_headers->{ $exp_header }, "$name $exp_header value"
-                    or diag explain $page;
+        for my $want_hdr ( keys %$expected_headers ) {
+            ok exists $http_headers->{ $want_hdr },
+                "$name $want_hdr exists";
+
+            my $want = $expected_headers->{ $want_hdr };
+            my $have = $http_headers->{ $want_hdr };
+            my $desc = "$name $want_hdr value";
+
+            if ( 'Regexp' eq ref $want ) {
+                like $have, $want, $desc or diag explain $page;
+            }
+            else {
+                is $have, $want, $desc   or diag explain $page;
+            }
         };
 
         $page->delete();
@@ -63,7 +71,7 @@ __DATA__
       url => '/header1', input_content => undef,
       http_headers => {
         'Status'            => '200 OK',
-        'Content-Type'      => 'application/json; charset=utf-8',
+        'Content-Type'      => qr{^application/json},
         'Content-Length'    => '44',
       },
     },
@@ -71,7 +79,7 @@ __DATA__
       url => '/header2', input_content => undef,
       http_headers => {
         'Status'            => '200 OK',
-        'Content-Type'      => 'application/json; charset=utf-8',
+        'Content-Type'      => qr{^application/json},
         'Content-Length'    => '44',
       },
     },
@@ -79,7 +87,7 @@ __DATA__
       url => '/header3', input_content => undef,
       http_headers => {
         'Status'            => '204 No Response',
-        'Content-Type'      => 'text/plain; charset=iso-8859-1',
+        'Content-Type'      => qr{^text/plain},
         'Content-Length'    => '44',
       },
     },
@@ -88,7 +96,7 @@ __DATA__
       url => '/header4', input_content => undef,
       http_headers => {
         'Status'            => '204 No Response',
-        'Content-Type'      => 'text/plain; charset=iso-8859-1',
+        'Content-Type'      => qr{^text/plain},
         'Content-Length'    => '44',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
@@ -99,7 +107,7 @@ __DATA__
       url => '/api4', input_content => undef,
       http_headers => {
         'Status'            => '204 No Response',
-        'Content-Type'      => 'text/plain; charset=iso-8859-1',
+        'Content-Type'      => qr{^text/plain},
         'Content-Length'    => '642',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
@@ -114,7 +122,7 @@ __DATA__
             ' "method":"foo_foo","data":["bar"]}'),
       http_headers => {
         'Status'            => '204 No Response',
-        'Content-Type'      => 'text/plain; charset=iso-8859-1',
+        'Content-Type'      => qr{^text/plain},
         'Content-Length'    => '78',
         'Set-Cookie'        => 'sessionID=xyzzy; domain=.capricorn.org; '.
                                'path=/cgi-bin/database; expires=Thursday, '.
