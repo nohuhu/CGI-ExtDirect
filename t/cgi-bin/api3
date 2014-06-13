@@ -19,7 +19,7 @@ use RPC::ExtDirect::Test::Pkg::Bar;
 use RPC::ExtDirect::Test::Pkg::Qux;
 use RPC::ExtDirect::Test::Pkg::PollProvider;
 
-open STDIN, '<&=', 3 or die "Can't reopen STDIN";
+open STDIN, '<&3' or die "Can't reopen STDIN";
 
 my $cgi = CGI::ExtDirect->new({ debug => 1 });
 
