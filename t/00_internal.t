@@ -62,18 +62,20 @@ is_deeply \@have, \@want, "Third form",
 
 # Fourth (and last) form is when headers are in a hash
 @want = hash_sort (
-    '-type'           => 'content/foo',
+    '-type'           => 'content/bar',
     '-content_length' => 111,
     '-charset'        => 'bleh',
-    '-status'         => '112 SOS',
+    '-status'         => '200 OK',
     'Content-Foo'     => 'bar',
 );
 
 @have = hash_sort $c->_munge_headers(
     'content/foo', '112 SOS', 111,
 
-    # These headers are overridden with first three arguments
+    # This header should be overridden with a value from 3rd argument
     'Content-Length' => 222,
+
+    # These headers we no longer override in 3.0+
     'Content-Type'   => 'content/bar',
     'Status'         => '200 OK',
 

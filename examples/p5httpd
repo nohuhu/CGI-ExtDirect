@@ -1,5 +1,3 @@
-#!PUT_PERL_HERE
-
 require 5.6.0;    # needs perl > 5.6.0
 
 # This points to current blib so that freshly built CGI::ExtDirect
@@ -428,7 +426,10 @@ CONNECT:
       $ENV{SERVER_URL}      = "http://$localname:$port/";
       $ENV{SCRIPT_FILENAME} = "$server_root$abs_path";
       $ENV{REQUEST_URI}     = $url;
-      $ENV{SERVER_ROOT} = $server_root;    # non-standard?
+      $ENV{SERVER_ROOT}     = $server_root; # non-standard?
+      $ENV{PERL}            = $^X;          # definitely non-standard ;)
+      $ENV{PERL5LIB}
+        = join ':', map { -e $_ ? abs_path($_) : $_ } @INC;
 
       if ( $method =~ /POST/ ) {
         logmsg

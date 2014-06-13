@@ -1,4 +1,9 @@
-#!PUT_PERL_HERE
+#!/bin/sh
+
+exec 3<&0
+
+$PERL -x <<'END_OF_SCRIPT'
+#!perl
 
 use CGI 'cookie';
 use CGI::ExtDirect;
@@ -10,11 +15,12 @@ use RPC::ExtDirect::API     Namespace       => 'Namespace',
                             Polling_var     => 'Ext.app.POLL',
                         ;
 
-use lib '../lib';
-use RPC::ExtDirect::Test::Foo;
-use RPC::ExtDirect::Test::Bar;
-use RPC::ExtDirect::Test::Qux;
-use RPC::ExtDirect::Test::PollProvider;
+use RPC::ExtDirect::Test::Pkg::Foo;
+use RPC::ExtDirect::Test::Pkg::Bar;
+use RPC::ExtDirect::Test::Pkg::Qux;
+use RPC::ExtDirect::Test::Pkg::PollProvider;
+
+open STDIN, '<&=', 3 or die "Can't reopen STDIN";
 
 my $cookie = cookie(-name=>'sessionID',
                     -value=>'xyzzy',

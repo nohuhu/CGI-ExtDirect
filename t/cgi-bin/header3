@@ -1,11 +1,17 @@
-#!PUT_PERL_HERE
+#!/bin/sh
+
+exec 3<&0
+
+$PERL -x <<'END_OF_SCRIPT'
+#!perl
 
 use CGI::ExtDirect;
 
-use lib '../lib';
-use RPC::ExtDirect::Test::PollProvider;
+use RPC::ExtDirect::Test::Pkg::PollProvider;
 
-local $RPC::ExtDirect::Test::PollProvider::WHAT_YOURE_HAVING = '';
+open STDIN, '<&=', 3 or die "Can't reopen STDIN";
+
+local $RPC::ExtDirect::Test::Pkg::PollProvider::WHAT_YOURE_HAVING = '';
 
 my $cgi = CGI::ExtDirect->new({ debug => 1 });
 
