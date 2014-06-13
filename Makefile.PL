@@ -26,11 +26,11 @@ END
 # Finally, write Makefile
 WriteMakefile(
     NAME              => 'CGI::ExtDirect',
-    VERSION_FROM      => 'lib/CGI/ExtDirect.pm', # finds $VERSION
+    VERSION_FROM      => 'lib/CGI/ExtDirect.pm',
     ($ExtUtils::MakeMaker::VERSION >= 6.55
         ? ( BUILD_REQUIRES    => {
             'Test::More'     => 0,
-            'CGI::Test'      => '0.31',
+            'CGI::Test'      => '0.32',
           },
           PREREQ_PM         => {
             # 5.20 warns that CGI is going to be removed from
@@ -41,16 +41,16 @@ WriteMakefile(
         )
         : ( PREREQ_PM => {
                 'Test::More'     => 0,
-                'CGI::Test'      => '0.31',
+                'CGI::Test'      => '0.32',
                 'CGI'            => 0,
                 'RPC::ExtDirect' => '3.00',
             },
         )
     ),
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
-       AUTHOR   => 'Alex Tokarev <tokarev@cpan.org>',
-       LICENSE  => 'perl') : ()),
+
+    ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
+    AUTHOR   => 'Alex Tokarev <tokarev@cpan.org>',
+    LICENSE  => 'perl',
 
     ($ExtUtils::MakeMaker::VERSION >= 6.46
         ? ( META_MERGE => {
