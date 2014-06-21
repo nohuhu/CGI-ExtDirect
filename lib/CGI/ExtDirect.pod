@@ -321,8 +321,8 @@ and can be found here: L<http://utopia.knoware.nl/~hlub/rlwrap/>
 
 =head1 BUGS AND LIMITATIONS
 
-There are no known bugs in this module. Please report problems to the
-author, patches are always welcome.
+At this time there are no known bugs in this module. Please report problems
+to the author, patches are always welcome.
 
 Use L<Github tracker|https://github.com/nohuhu/CGI-ExtDirect/issues> to open
 bug reports, this is the easiest and quickest way to get your issue fixed.
