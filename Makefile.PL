@@ -26,25 +26,39 @@ my $MM_VERSION = $ExtUtils::MakeMaker::VERSION;
 WriteMakefile(
     NAME              => 'CGI::ExtDirect',
     VERSION_FROM      => 'lib/CGI/ExtDirect.pm',
-    ($MM_VERSION >= 6.55
-        ? ( BUILD_REQUIRES    => {
-            'Test::More'     => '0.82',
-            'CGI::Test'      => '0.32',
-          },
-          PREREQ_PM         => {
-            # 5.20 warns that CGI is going to be removed from
-            # perl distro in 5.22, so we require it here
-            'CGI'            => 0,
-            'RPC::ExtDirect' => '3.01',
-          },
-        )
-        : ( PREREQ_PM => {
+    ($MM_VERSION >= 6.64
+        ? (
+            TEST_REQUIRES => {
                 'Test::More'     => '0.82', # for explain()
                 'CGI::Test'      => '0.32',
+            },
+            PREREQ_PM => {
+                # 5.20 warns that CGI is going to be removed from
+                # perl core in 5.22, so we require it here
                 'CGI'            => 0,
                 'RPC::ExtDirect' => '3.01',
             },
         )
+        : (
+            ($MM_VERSION >= 6.5503
+                ? ( BUILD_REQUIRES   => {
+                    'Test::More'     => '0.82',
+                    'CGI::Test'      => '0.32',
+                },
+                PREREQ_PM         => {
+                    'CGI'            => 0,
+                    'RPC::ExtDirect' => '3.01',
+                },
+                )
+                : ( PREREQ_PM => {
+                        'Test::More'     => '0.82',
+                        'CGI::Test'      => '0.32',
+                        'CGI'            => 0,
+                        'RPC::ExtDirect' => '3.01',
+                    },
+                )
+            ),
+        ),
     ),
 
     ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
