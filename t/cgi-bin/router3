@@ -37,3 +37,6 @@ my $cgi = CGI::ExtDirect->new({ debug => 1 });
 print $cgi->route( %headers );
 
 exit 0;
+
+END_OF_SCRIPT
+

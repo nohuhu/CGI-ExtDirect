@@ -36,3 +36,6 @@ my %headers = (
 print $extdirect->poll( %headers );
 
 exit 0;
+
+END_OF_SCRIPT
+

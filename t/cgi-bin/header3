@@ -25,3 +25,6 @@ my %headers = (
 print $cgi->poll( %headers );
 
 exit 0;
+
+END_OF_SCRIPT
+

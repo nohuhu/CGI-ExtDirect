@@ -18,3 +18,6 @@ my $cgi = CGI::ExtDirect->new({ debug => 1 });
 print $cgi->poll('text/plain', '204 No Response');
 
 exit 0;
+
+END_OF_SCRIPT
+

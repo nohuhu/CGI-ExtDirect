@@ -18,3 +18,6 @@ my $exd = CGI::ExtDirect->new( debug => 1 );
 print $exd->route(%headers);
 
 exit 0;
+
+END_OF_SCRIPT
+
