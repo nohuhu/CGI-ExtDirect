@@ -1,3 +1,8 @@
+3.01  Fri Jun 20 19:46:26 2014
+    - Fixed test failures due to missing heredoc closing tags
+      in test scripts
+    - Some documentation touch-ups
+
 3.00  Thu Jun 12 18:19:37 2014
     - Updated to accommodate for the changes in RPC::ExtDirect 3.0
     - Many bug fixes, the bulk of the test data moved to the core
