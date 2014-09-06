@@ -21,62 +21,59 @@ disttest : distdir
 END
 }
 
-my $MM_VERSION = $ExtUtils::MakeMaker::VERSION;
+my $MM_VERSION  = $ExtUtils::MakeMaker::VERSION;
+my $github_repo = 'https://github.com/nohuhu/CGI-ExtDirect';
+
+my %CORE_REQ = (
+    # 5.20 warns that CGI is going to be removed from
+    # perl core in 5.22, so we require it here
+    'CGI'            => 0,
+    'RPC::ExtDirect' => '3.01',
+);
+
+my %TEST_REQ = (
+    'Test::More' => '0.82', # for explain()
+    'CGI::Test'  => '0.50',
+);
 
 WriteMakefile(
-    NAME              => 'CGI::ExtDirect',
-    VERSION_FROM      => 'lib/CGI/ExtDirect.pm',
+    NAME         => 'CGI::ExtDirect',
+    VERSION_FROM => 'lib/CGI/ExtDirect.pm',
+
+    ABSTRACT     => 'RPC::ExtDirect gateway for CGI', 
+    AUTHOR       => 'Alex Tokarev <tokarev@cpan.org>',
+    LICENSE      => 'perl',
+
     ($MM_VERSION >= 6.64
         ? (
-            TEST_REQUIRES => {
-                'Test::More'     => '0.82', # for explain()
-                'CGI::Test'      => '0.32',
-            },
-            PREREQ_PM => {
-                # 5.20 warns that CGI is going to be removed from
-                # perl core in 5.22, so we require it here
-                'CGI'            => 0,
-                'RPC::ExtDirect' => '3.01',
-            },
+            TEST_REQUIRES => \%TEST_REQ,
+            PREREQ_PM     => \%CORE_REQ,
         )
         : (
             ($MM_VERSION >= 6.5503
-                ? ( BUILD_REQUIRES   => {
-                    'Test::More'     => '0.82',
-                    'CGI::Test'      => '0.32',
-                },
-                PREREQ_PM         => {
-                    'CGI'            => 0,
-                    'RPC::ExtDirect' => '3.01',
-                },
+                ? ( 
+                    BUILD_REQUIRES => \%TEST_REQ,
+                    PREREQ_PM      => \%CORE_REQ,
                 )
-                : ( PREREQ_PM => {
-                        'Test::More'     => '0.82',
-                        'CGI::Test'      => '0.32',
-                        'CGI'            => 0,
-                        'RPC::ExtDirect' => '3.01',
+                : (
+                    PREREQ_PM => {
+                        %TEST_REQ,
+                        %CORE_REQ,
                     },
                 )
             ),
         ),
     ),
 
-    ABSTRACT => 'RPC::ExtDirect gateway for CGI', 
-    AUTHOR   => 'Alex Tokarev <tokarev@cpan.org>',
-    LICENSE  => 'perl',
-
-    ($MM_VERSION >= 6.48
-        ? ( MIN_PERL_VERSION => 5.006000 )
-        : (),
-    ),
+    ($MM_VERSION >= 6.48 ? ( MIN_PERL_VERSION => 5.006000 ) : ()),
 
     ($MM_VERSION >= 6.46
         ? ( META_MERGE => {
-            resources   => {
-                bugtracker  => 'http://github.com/nohuhu/CGI-ExtDirect/issues',
-                repository  => 'http://github.com/nohuhu/CGI-ExtDirect',
+                resources   => {
+                    bugtracker  => "$github_repo/issues",
+                    repository  => "$github_repo",
+                },
             },
-           },
         )
         : ()
     ),
