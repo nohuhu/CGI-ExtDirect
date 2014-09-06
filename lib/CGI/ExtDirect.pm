@@ -24,7 +24,7 @@ die __PACKAGE__." requires RPC::ExtDirect 3.0+"
 # Version of this module.
 #
 
-our $VERSION = '3.01';
+our $VERSION = '3.10';
 
 ### PUBLIC CLASS METHOD (CONSTRUCTOR) ###
 #
