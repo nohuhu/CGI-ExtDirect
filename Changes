@@ -1,3 +1,7 @@
+3.10  Fri Sep  5 22:46:40 2014
+    - Windows compatibility
+    - CGI::Test dependency bumped to 0.50
+
 3.01  Fri Jun 20 19:46:26 2014
     - Fixed test failures due to missing heredoc closing tags
       in test scripts
