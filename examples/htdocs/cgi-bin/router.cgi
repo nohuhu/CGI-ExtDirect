@@ -32,3 +32,5 @@ print $direct->route();
 
 exit 0;
 
+END_OF_SCRIPT
+

@@ -36,3 +36,5 @@ print $direct->api();
 
 exit 0;
 
+END_OF_SCRIPT
+

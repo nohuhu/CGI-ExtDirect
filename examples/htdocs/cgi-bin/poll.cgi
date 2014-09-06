@@ -28,3 +28,5 @@ print $direct->poll();
 
 exit 0;
 
+END_OF_SCRIPT
+

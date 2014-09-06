@@ -17,6 +17,8 @@ package p5httpd;    # keep namespace separate from CGI scripts
 use strict;
 our $version = 0.07;
 
+use constant WINDOWS => eval { $^O =~ /Win32|cygwin/ };
+
 ################# Configuration section #######################
 
 # All filenames below have to be absolute (except $icondir).
@@ -78,7 +80,7 @@ our $when_to_fork = $never_fork;
 # Default: "\.cgi$" (matching any file with extension .cgi)
 # other possibilities: "\.pl$" or "\.(cgi|pl)$" or "\/cgi-bin\/"
 
-our $cgi_scriptname_regexp = '';
+our $cgi_scriptname_regexp = WINDOWS ? '\.bat$' : '\.cgi$';
 
 # Whether to run cgi scripts by evaling or executing. $cgis_are_evaled
 # and $cgis_are_executed do just what they say, $only_perl_is_evaled
@@ -129,6 +131,8 @@ our (
   %mime_types, %cgi_urls, %encrypted_passwords, %private,
   %public,     $invocation, $p5httpd_homedir
 );
+
+use constant PATH_SEPARATOR => WINDOWS ? ';' : ':';
 
 initialise();
 main_loop();
@@ -182,7 +186,7 @@ sub initialise {
   # If $config_dir is still unset, set it now
   $config_dir ||= $extra_config_dir;
   push @INC, "$config_dir/modules";    # extra modules may be put here, and
-  $ENV{PERL5LIB} = ( $ENV{PERL5LIB}? "$ENV{PERL5LIB}:$config_dir/modules" : "$config_dir/modules"); # ... let children know about this
+  $ENV{PERL5LIB} = ( $ENV{PERL5LIB} ? $ENV{PERL5LIB} . PATH_SEPARATOR . "$config_dir/modules" : "$config_dir/modules"); # ... let children know about this
   
   if ( not $server_root ) {
     $server_root = (
@@ -386,6 +390,9 @@ CONNECT:
       }
     }    # if (-d "$server_root$abs_path"
 
+    # This is a hacky hack, for hack's sake!
+    $abs_path =~ s/\.cgi$/\.bat/ if WINDOWS;
+
     if ( not -r "$server_root$abs_path" ) {    # check for existence of abs_path
       logerr 404, "$abs_path: $!";
       exit if $I_am_child;
@@ -429,7 +436,7 @@ CONNECT:
       $ENV{SERVER_ROOT}     = $server_root; # non-standard?
       $ENV{PERL}            = $^X;          # definitely non-standard ;)
       $ENV{PERL5LIB}
-        = join ':', map { -e $_ ? abs_path($_) : $_ } @INC;
+        = join PATH_SEPARATOR, map { -e $_ ? abs_path($_) : $_ } @INC;
 
       if ( $method =~ /POST/ ) {
         logmsg
