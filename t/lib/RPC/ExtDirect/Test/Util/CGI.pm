@@ -24,6 +24,8 @@ our @EXPORT_OK = qw/
     form_upload
 /;
 
+use constant WINDOWS => eval { $^O =~ /Win32|cygwin/ };
+
 ### EXPORTED PUBLIC PACKAGE SUBROUTINE ###
 #
 # Run the test battery from the passed definitions
@@ -53,7 +55,9 @@ sub run_tests {
         );
     
         # CGI tests have the config hardcoded in the scripts
-        my $url           = $ct->base_uri . $input->{cgi_url};
+        my $url           = $ct->base_uri
+                          . $input->{cgi_url}
+                          . ( WINDOWS ? '.bat' : '' );
         my $method        = $input->{method};
         my $input_content = $input->{cgi_content} || $input->{content};
         

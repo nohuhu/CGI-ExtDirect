@@ -11,6 +11,8 @@ use RPC::ExtDirect::Test::Util::CGI qw/ raw_post form_post form_upload /;
 
 use CGI::ExtDirect;
 
+use constant WINDOWS => eval { $^O =~ /Win32|cygwin/ };
+
 my $tests = eval do { local $/; <DATA>; }       ## no critic
     or die "Can't eval DATA: '$@'";
 
@@ -35,7 +37,7 @@ for my $test ( @$tests ) {
 
     next TEST if @run_only && !grep { lc $name eq lc $_ } @run_only;
 
-    my $url  = $ct->base_uri . $cgi_url;
+    my $url  = $ct->base_uri . $cgi_url . (WINDOWS ? '.bat' : '');
     my $page = $ct->$method($url, $input_content);
 
     if ( ok $page, "$name not empty" ) {
