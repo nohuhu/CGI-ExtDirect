@@ -352,6 +352,11 @@ sub _extract_post_data {
     # Now if the form IS involved, it gets a little bit complicated
     PARAM:
     for my $param ( keys %keyword ) {
+        # This is to suppress a really annoying warning in CGI.pm 4.08+.
+        # I am perfectly aware of what the list context is and how to
+        # use it, thank you very much. :/
+        $CGI::LIST_CONTEXT_WARN = 0;
+
         # Defang CGI's idiosyncratic way of returning multi-valued params
         my @values = $cgi->param( $param );
         $keyword{ $param } = @values == 0 ? undef
