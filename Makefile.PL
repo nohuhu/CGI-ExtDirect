@@ -28,12 +28,12 @@ my %CORE_REQ = (
     # 5.20 warns that CGI is going to be removed from
     # perl core in 5.22, so we require it here
     'CGI'            => 0,
-    'RPC::ExtDirect' => '3.01',
+    'RPC::ExtDirect' => '3.02',
 );
 
 my %TEST_REQ = (
     'Test::More' => '0.82', # for explain()
-    'CGI::Test'  => '0.50',
+    'CGI::Test'  => '1.000',
 );
 
 WriteMakefile(
