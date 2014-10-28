@@ -1,18 +1,23 @@
-3.10  Fri Sep  5 22:46:40 2014
+3.11  Mon Oct 27 17:41:48 PDT 2014
+    - Suppress list context warning in CGI.pm 4.08+
+    - RPC::ExtDirect dependency bumped to 3.02
+    - CGI::Test dependency bumped to 1.000
+
+3.10  Fri Sep  5 22:46:40 PDT 2014
     - Windows compatibility
     - CGI::Test dependency bumped to 0.50
 
-3.01  Fri Jun 20 19:46:26 2014
+3.01  Fri Jun 20 19:46:26 PDT 2014
     - Fixed test failures due to missing heredoc closing tags
       in test scripts
     - Some documentation touch-ups
 
-3.00  Thu Jun 12 18:19:37 2014
+3.00  Thu Jun 12 18:19:37 PDT 2014
     - Updated to accommodate for the changes in RPC::ExtDirect 3.0
     - Many bug fixes, the bulk of the test data moved to the core
     - More documentation
 
-2.03  Tue Jun 10 20:02:18 2014
+2.03  Tue Jun 10 20:02:18 PDT 2014
     - Fixed a bug in CGI header handling that made HTTP response
       output to be mangled sometimes with Perls 5.18+
 
