@@ -1,3 +1,8 @@
+3.12  Sun Jan 18 12:10:53 PST 2015
+    - Updated CDN links in examples to Ext JS 4.2.1 instead of
+      outdated and no longer supported 4.0.2a.
+    - No code changes.
+
 3.11  Mon Oct 27 17:41:48 PDT 2014
     - Suppress list context warning in CGI.pm 4.08+
     - RPC::ExtDirect dependency bumped to 3.02
