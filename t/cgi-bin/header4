@@ -1,8 +1,6 @@
 #!/bin/sh
 
-exec 3<&0
-
-$PERL -x <<'END_OF_SCRIPT'
+$PERL -x 3<&0 <<'END_OF_SCRIPT'
 #!perl
 
 use CGI;
@@ -10,6 +8,7 @@ use CGI::ExtDirect;
 
 use RPC::ExtDirect::Test::Pkg::PollProvider;
 
+# 2 argument open() is here for older Perls
 open STDIN, '<&3' or die "Can't reopen STDIN";
 
 local $RPC::ExtDirect::Test::Pkg::PollProvider::WHAT_YOURE_HAVING = '';
