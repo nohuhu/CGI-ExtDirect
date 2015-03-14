@@ -65,6 +65,8 @@ t/cgi-bin/router2
 t/cgi-bin/router2.bat
 t/cgi-bin/router3
 t/cgi-bin/router3.bat
+t/cgi-bin/router4
+t/cgi-bin/router4.bat
 t/data/cgi-data/bar.png
 t/data/cgi-data/foo.jpg
 t/data/cgi-data/qux.txt
