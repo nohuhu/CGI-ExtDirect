@@ -1,3 +1,9 @@
+3.20  Tue Mar 31 21:46:14 PDT 2015
+    - Updated to support call metadata feature in RPC::ExtDirect 3.20
+    - Added unit tests
+    - RPC::ExtDirect depdendency bumped to 3.20
+    - CGI::Test dependency bumped to 1.100
+
 3.12  Sun Jan 18 12:10:53 PST 2015
     - Updated CDN links in examples to Ext JS 4.2.1 instead of
       outdated and no longer supported 4.0.2a.
