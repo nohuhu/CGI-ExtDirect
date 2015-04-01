@@ -28,22 +28,22 @@ my %CORE_REQ = (
     # 5.20 warns that CGI is going to be removed from
     # perl core in 5.22, so we require it here
     'CGI'            => 0,
-    'RPC::ExtDirect' => '3.02',
+    'RPC::ExtDirect' => '3.20',
 );
 
 my %TEST_REQ = (
     'Test::More' => '0.82', # for explain()
-    'CGI::Test'  => '1.000',
+    'CGI::Test'  => '1.100',
 );
 
 WriteMakefile(
     NAME         => 'CGI::ExtDirect',
     VERSION_FROM => 'lib/CGI/ExtDirect.pm',
-
+    
     ABSTRACT     => 'RPC::ExtDirect gateway for CGI', 
     AUTHOR       => 'Alex Tokarev <tokarev@cpan.org>',
     LICENSE      => 'perl',
-
+    
     ($MM_VERSION >= 6.64
         ? (
             TEST_REQUIRES => \%TEST_REQ,
@@ -71,7 +71,7 @@ WriteMakefile(
         ? ( META_MERGE => {
                 resources   => {
                     bugtracker  => "$github_repo/issues",
-                    repository  => "$github_repo",
+                    repository  =>  $github_repo,
                 },
             },
         )
