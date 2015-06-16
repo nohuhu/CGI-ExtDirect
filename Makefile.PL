@@ -31,6 +31,12 @@ my %CORE_REQ = (
     'RPC::ExtDirect' => '3.20',
 );
 
+# CGI.pm was in a flux between 4.00 and 4.20; if we have 4.00+ let's have latter one
+eval {
+    require CGI;
+    $CORE_REQ{CGI} = '4.20' if $CGI::VERSION >= '4.00';
+};
+
 my %TEST_REQ = (
     'Test::More' => '0.82', # for explain()
     'CGI::Test'  => '1.100',

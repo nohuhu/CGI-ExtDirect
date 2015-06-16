@@ -1,3 +1,6 @@
+3.21_001 Mon Jun 15 22:04:46 PDT 2015
+    - Require CGI 4.20+ if it's over 4.0; trying to work around Win32 test failures
+
 3.20  Tue Mar 31 21:46:14 PDT 2015
     - Updated to support call metadata feature in RPC::ExtDirect 3.20
     - Added unit tests
