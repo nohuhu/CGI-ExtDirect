@@ -28,10 +28,11 @@ my %CORE_REQ = (
     # 5.20 warns that CGI is going to be removed from
     # perl core in 5.22, so we require it here
     'CGI'            => 0,
-    'RPC::ExtDirect' => '3.20',
+    'RPC::ExtDirect' => '3.24',
 );
 
-# CGI.pm was in a flux between 4.00 and 4.20; if we have 4.00+ let's have latter one
+# CGI.pm was in a flux between 4.00 and 4.20; if we have 4.00+
+# let's have the latter one then
 eval {
     require CGI;
     $CORE_REQ{CGI} = '4.20' if $CGI::VERSION >= '4.00';
