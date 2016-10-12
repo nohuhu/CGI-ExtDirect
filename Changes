@@ -1,3 +1,8 @@
+3.24  Wed Oct 12 00:54:25 PDT 2016
+    - RPC::ExtDirect dependency bumped to 3.24
+    - CGI::ExtDirect version bumped to 3.24 to match the core module
+    - No code changes since last dev version
+
 3.21_001 Mon Jun 15 22:04:46 PDT 2015
     - Require CGI 4.20+ if it's over 4.0; trying to work around Win32 test failures
 
